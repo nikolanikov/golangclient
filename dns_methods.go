@@ -1,4 +1,4 @@
-package golangclient
+package provisionclient
 
 import (
 	"bytes"
