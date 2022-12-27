@@ -1,4 +1,4 @@
-package golangsdk
+package golangclient
 
 type Netblock struct {
 	ID                  PVID     `json:"id,omitempty"`

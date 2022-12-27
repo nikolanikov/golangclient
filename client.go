@@ -1,4 +1,4 @@
-package golangsdk
+package golangclient
 
 import (
 	"crypto/tls"

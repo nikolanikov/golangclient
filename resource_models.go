@@ -1,4 +1,4 @@
-package golangsdk
+package golangclient
 
 type Resource struct {
 	ID          PVID              `json:"id"`

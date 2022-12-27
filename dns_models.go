@@ -1,4 +1,4 @@
-package golangsdk
+package golangclient
 
 type DNSZone struct {
 	ID          PVID   `json:"id"`
