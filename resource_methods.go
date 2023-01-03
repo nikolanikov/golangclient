@@ -3,6 +3,7 @@ package provisionclient
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"net/url"
 )
 
@@ -15,6 +16,7 @@ type ResourceMethods struct {
 //		"limit": "10",
 //	})
 func (resources *ResourceMethods) GetResources(filters *map[string]string) ([]Resource, error) {
+	fmt.Println("TESTT")
 	var fquery string
 	if filters != nil {
 		values := url.Values{}
@@ -29,10 +31,34 @@ func (resources *ResourceMethods) GetResources(filters *map[string]string) ([]Re
 		return nil, err
 	}
 
-	resources_ret := []Resource{}
-	err = json.Unmarshal(body, &resources_ret)
+	resources_ret_json := []Resource_json{}
+
+	err = json.Unmarshal(body, &resources_ret_json)
 	if err != nil {
 		return nil, err
+	}
+	resources_ret := make([]Resource, len(resources_ret_json))
+	for k, resource := range resources_ret_json {
+		resources_ret[k] = Resource{
+			ID:       resource.ID,
+			ParentID: resource.ParentID,
+			Name:     resource.Name,
+			Slug:     resource.Slug,
+			Modified: resource.Modified,
+			Date:     resource.Date,
+			Linkages: resource.Linkages,
+		}
+
+		switch dv := resource.Attrs.(type) {
+		case map[string]string:
+			resources_ret[k].Attrs = dv
+		}
+
+		switch dv := resource.Permissions.(type) {
+		case map[string]string:
+			resources_ret[k].Permissions = dv
+		}
+
 	}
 
 	return resources_ret, nil

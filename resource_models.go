@@ -13,6 +13,19 @@ type Resource struct {
 	Linkages    []Linkage         `json:"linkages,omitempty"`
 }
 
+type Resource_json struct {
+	ID          PVID        `json:"id"`
+	ParentID    PVID        `json:"parent_id"`
+	Name        string      `json:"name"`
+	Slug        string      `json:"slug,omitempty"`
+	Type        string      `json:"type"`
+	Date        string      `json:"date"`
+	Modified    string      `json:"modified"`
+	Attrs       interface{} `json:"attrs,omitempty"`
+	Permissions interface{} `json:"permissions,omitempty"`
+	Linkages    []Linkage   `json:"linkages,omitempty"`
+}
+
 type Linkage struct {
 	ID          PVID   `json:"id,omitempty"`
 	ResourceID1 PVID   `json:"resource_id1,omitempty"`
