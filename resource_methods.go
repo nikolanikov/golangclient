@@ -71,7 +71,7 @@ func (resources *ResourceMethods) GetResources(filters *map[string]string) ([]Re
 						m[k] = string(val)
 					}
 				}
-				resources_ret[k].Attrs = m
+				resources_ret[k].Permissions = m
 			}
 		}
 
@@ -80,7 +80,7 @@ func (resources *ResourceMethods) GetResources(filters *map[string]string) ([]Re
 	return resources_ret, nil
 }
 
-//	newResource := golangsdk.Resource{
+//	newResource := provisionclient.Resource{
 //		Name:     "Test A Record",
 //		Type:     "dnsrecord",
 //		ParentID: "428964",

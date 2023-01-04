@@ -148,7 +148,7 @@ func (dns *DNSMethods) GetZoneRecords(zone_id string, filters *map[string]string
 	return records, nil
 }
 
-//	newRecord := golangsdk.DNSRecord{
+//	newRecord := provisionclient.DNSRecord{
 //		ParentID:    "428964",
 //		Name:        "Golang TXT Record",
 //		RecordType:  "TXT",
