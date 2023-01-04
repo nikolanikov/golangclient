@@ -3,6 +3,7 @@ package provisionclient
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"net/url"
 )
 
@@ -113,12 +114,16 @@ func (resources *ResourceMethods) AddResource(resource Resource) (*Resource, err
 }
 
 func (resources *ResourceMethods) UpdateResource(resource Resource) (*Resource, error) {
+	if string(resource.ID) == "" {
+		return nil, errors.New("error: Resource ID is required for updating a resource")
+	}
+
 	reqbody, err := json.Marshal(resource)
 	if err != nil {
 		return nil, err
 	}
 
-	body, err := resources.Client.doRequest("PATCH", "/resources", bytes.NewBuffer(reqbody))
+	body, err := resources.Client.doRequest("PATCH", "/resources/"+string(resource.ID), bytes.NewBuffer(reqbody))
 	if err != nil {
 		return nil, err
 	}
@@ -137,6 +142,9 @@ func (resources *ResourceMethods) DeleteResource(resource Resource) (*Resource, 
 }
 
 func (resources *ResourceMethods) DeleteResourceByID(resourceId string) (*Resource, error) {
+	if string(resourceId) == "" {
+		return nil, errors.New("error: Resource ID is required for updating a resource")
+	}
 
 	body, err := resources.Client.doRequest("DELETE", "/resources/"+resourceId, nil)
 	if err != nil {
