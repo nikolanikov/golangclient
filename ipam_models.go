@@ -58,4 +58,5 @@ type Netblock struct {
 	Range               []string `json:"range,omitempty"`
 	Tags                []string `json:"tags,omitempty"`
 	UtilizationStatus   string   `json:"utilization_status,omitempty"`
+	AllowDuplicate      string   `json:"allow_duplicate,omitempty"`
 }
