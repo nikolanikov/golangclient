@@ -40,9 +40,8 @@ func (ipam *IPAMMethods) SmartAssign(resource_id, ip_type, rir string, mask int,
 }
 
 // values, err := client.IPAM.DirectAssign("799399", "192.168.1.0/24", "1918", map[string]interface{}{})
-func (ipam *IPAMMethods) DirectAssign(resource_id, cidr, rir string, params map[string]interface{}) (*Netblock, error) {
+func (ipam *IPAMMethods) DirectAssign(resource_id, cidr, params map[string]interface{}) (*Netblock, error) {
 	params["resource_id"] = resource_id
-	params["rir"] = rir
 	params["cidr"] = cidr
 
 	reqbody, err := json.Marshal(params)
