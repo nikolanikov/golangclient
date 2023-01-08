@@ -50,7 +50,7 @@ func (ipam *IPAMMethods) DirectAssign(resource_id, cidr, rir string, params map[
 		return nil, err
 	}
 
-	body, err := ipam.Client.doRequest("PUT", "/ipam/netblocks/smart_assign", bytes.NewBuffer(reqbody))
+	body, err := ipam.Client.doRequest("PUT", "/ipam/netblocks/direct_assign", bytes.NewBuffer(reqbody))
 	if err != nil {
 		return nil, err
 	}
