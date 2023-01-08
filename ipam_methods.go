@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"net/url"
+	"strconv"
 	"strings"
 )
 
@@ -169,6 +170,26 @@ func (ipam *IPAMMethods) DeleteNetblock(netblock Netblock) (*Netblock, error) {
 func (ipam *IPAMMethods) DeleteNetblockByID(netblock_id string) (*Netblock, error) {
 
 	body, err := ipam.Client.doRequest("DELETE", "/ipam/netblocks/"+netblock_id, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	netblocks_ret := Netblock{}
+	err = json.Unmarshal(body, &netblocks_ret)
+	if err != nil {
+		return nil, err
+	}
+
+	return &netblocks_ret, nil
+}
+
+func (ipam *IPAMMethods) UnassignNetblock(netblock Netblock, skip_holding_tank bool) (*Netblock, error) {
+	return ipam.Client.IPAM.UnassignNetblockByID(string(netblock.ID), skip_holding_tank)
+}
+
+func (ipam *IPAMMethods) UnassignNetblockByID(netblock_id string, skip_holding_tank bool) (*Netblock, error) {
+	reqbody := []byte("{\"skip_holding\" : " + string(strconv.FormatBool(skip_holding_tank)) + "}")
+	body, err := ipam.Client.doRequest("PUT", "/ipam/netblocks/"+netblock_id+"/unassign", bytes.NewBuffer(reqbody))
 	if err != nil {
 		return nil, err
 	}
