@@ -228,7 +228,7 @@ func (ipam *IPAMMethods) GetFirstAvailable(cidr_or_id string) (*string, error) {
 
 	split := strings.Split(netblocks_ret["cidr"], "/")
 	if len(split) == 2 && (split[1] == "32" || split[1] == "128") {
-		ret = split[1]
+		ret = split[0]
 	}
 
 	return &ret, nil
