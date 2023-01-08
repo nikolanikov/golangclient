@@ -148,7 +148,7 @@ func (ipam *IPAMMethods) UpdateNetblock(netblock Netblock) (*Netblock, error) {
 		return nil, err
 	}
 
-	body, err := ipam.Client.doRequest("POST", "/ipam/netblocks/"+string(netblock.ID), bytes.NewBuffer(reqbody))
+	body, err := ipam.Client.doRequest("PATCH", "/ipam/netblocks/"+string(netblock.ID), bytes.NewBuffer(reqbody))
 	if err != nil {
 		return nil, err
 	}
