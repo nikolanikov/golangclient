@@ -42,25 +42,24 @@ func (ipam *IPAMMethods) SmartAssign(resource_id, ip_type, rir string, mask int,
 // values, err := client.IPAM.DirectAssign("799399", "192.168.1.0/24", map[string]interface{}{})
 func (ipam *IPAMMethods) DirectAssign(resource_id, cidr string, params map[string]interface{}) (*Netblock, error) {
 	params["resource_id"] = resource_id
-	params["cidr"] = cidr
 
 	reqbody, err := json.Marshal(params)
 	if err != nil {
 		return nil, err
 	}
 
-	body, err := ipam.Client.doRequest("PUT", "/ipam/netblocks/direct_assign", bytes.NewBuffer(reqbody))
+	body, err := ipam.Client.doRequest("PUT", "/ipam/netblocks/"+cidr+"/direct_assign", bytes.NewBuffer(reqbody))
 	if err != nil {
 		return nil, err
 	}
 
-	var resp_record Netblock
+	var resp_record []Netblock
 	err = json.Unmarshal(body, &resp_record)
 	if err != nil {
 		return nil, err
 	}
 
-	return &resp_record, nil
+	return &resp_record[0], nil
 }
 
 //	values, err := client.IPAM.GetNetblocks(&map[string]string{
