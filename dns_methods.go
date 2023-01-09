@@ -207,24 +207,14 @@ func (dns *DNSMethods) UpdateZoneRecord(record DNSRecord) (*DNSRecord, error) {
 	return &resp_record, nil
 }
 
-func (dns *DNSMethods) DeleteZoneRecord(record DNSRecord) (*DNSRecord, error) {
+func (dns *DNSMethods) DeleteZoneRecord(record DNSRecord) error {
 	return dns.Client.DNS.DeleteZoneRecordByID(string(record.ParentID), string(record.ID))
 }
 
-func (dns *DNSMethods) DeleteZoneRecordByID(zoneId, recordId string) (*DNSRecord, error) {
+func (dns *DNSMethods) DeleteZoneRecordByID(zoneId, recordId string) error {
 
-	body, err := dns.Client.doRequest("DELETE", "/dns/zones/"+zoneId+"/records/"+recordId, nil)
-	if err != nil {
-		return nil, err
-	}
-
-	var resp_record DNSRecord
-	err = json.Unmarshal(body, &resp_record)
-	if err != nil {
-		return nil, err
-	}
-
-	return &resp_record, nil
+	_, err := dns.Client.doRequest("DELETE", "/dns/zones/"+zoneId+"/records/"+recordId, nil)
+	return err
 }
 
 //Push Calls
