@@ -3,6 +3,7 @@ package provisionclient
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/url"
 )
@@ -179,6 +180,14 @@ func (dns *DNSMethods) AddZoneRecord(record DNSRecord) (*DNSRecord, error) {
 }
 
 func (dns *DNSMethods) UpdateZoneRecord(record DNSRecord) (*DNSRecord, error) {
+	if record.ParentID == "" {
+		return nil, errors.New("DNSRecord ParentID must not be empty")
+	}
+
+	if record.ID == "" {
+		return nil, errors.New("DNSRecord ID must not be empty")
+	}
+
 	reqbody, err := json.Marshal(record)
 	if err != nil {
 		return nil, err
