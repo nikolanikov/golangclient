@@ -241,6 +241,21 @@ func (dns *DNSMethods) PushZoneByID(zoneId string) (*string, error) {
 	return &pid, nil
 }
 
+func (dns *DNSMethods) GetZonePushStatus(zoneId, PID string) ([]DNSPushStatusMessage, error) {
+	body, err := dns.Client.doRequest("GET", "/dns/zones/"+zoneId+"/push_status/"+PID, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	messages := []DNSPushStatusMessage{}
+	err = json.Unmarshal(body, &messages)
+	if err != nil {
+		return nil, err
+	}
+
+	return messages, nil
+}
+
 func (dns *DNSMethods) PushGroupByID(groupId string) (*string, error) {
 
 	body, err := dns.Client.doRequest("POST", "/dns/groups/"+groupId+"/push", nil)
@@ -262,6 +277,21 @@ func (dns *DNSMethods) PushGroupByID(groupId string) (*string, error) {
 	return &pid, nil
 }
 
+func (dns *DNSMethods) GetGroupPushStatus(groupId, PID string) ([]DNSPushStatusMessage, error) {
+	body, err := dns.Client.doRequest("GET", "/dns/groups/"+groupId+"/push_status/"+PID, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	messages := []DNSPushStatusMessage{}
+	err = json.Unmarshal(body, &messages)
+	if err != nil {
+		return nil, err
+	}
+
+	return messages, nil
+}
+
 func (dns *DNSMethods) PushServerByID(serverId string) (*string, error) {
 
 	body, err := dns.Client.doRequest("POST", "/dns/servers/"+serverId+"/push", nil)
@@ -281,4 +311,19 @@ func (dns *DNSMethods) PushServerByID(serverId string) (*string, error) {
 	}
 
 	return &pid, nil
+}
+
+func (dns *DNSMethods) GetServerPushStatus(serverId, PID string) ([]DNSPushStatusMessage, error) {
+	body, err := dns.Client.doRequest("GET", "/dns/servers/"+serverId+"/push_status/"+PID, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	messages := []DNSPushStatusMessage{}
+	err = json.Unmarshal(body, &messages)
+	if err != nil {
+		return nil, err
+	}
+
+	return messages, nil
 }

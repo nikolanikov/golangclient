@@ -1,5 +1,12 @@
 package provisionclient
 
+type DNSPushStatusMessage struct {
+	MSGid       string `json:"msgid,omitempty"`
+	Message     string `json:"message,omitempty"`
+	State       string `json:"state,omitempty"`
+	DateCreated string `json:"date_created,omitempty"`
+}
+
 type DNSZone struct {
 	ID          PVID   `json:"id"`
 	ParentID    PVID   `json:"parent_id"`
