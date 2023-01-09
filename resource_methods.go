@@ -137,25 +137,15 @@ func (resources *ResourceMethods) UpdateResource(resource Resource) (*Resource, 
 	return &resp_resource, nil
 }
 
-func (resources *ResourceMethods) DeleteResource(resource Resource) (*Resource, error) {
+func (resources *ResourceMethods) DeleteResource(resource Resource) error {
 	return resources.Client.Resources.DeleteResourceByID(string(resource.ID))
 }
 
-func (resources *ResourceMethods) DeleteResourceByID(resourceId string) (*Resource, error) {
+func (resources *ResourceMethods) DeleteResourceByID(resourceId string) error {
 	if string(resourceId) == "" {
-		return nil, errors.New("error: Resource ID is required for updating a resource")
+		return errors.New("error: Resource ID is required for updating a resource")
 	}
 
-	body, err := resources.Client.doRequest("DELETE", "/resources/"+resourceId, nil)
-	if err != nil {
-		return nil, err
-	}
-
-	var resp_resource Resource
-	err = json.Unmarshal(body, &resp_resource)
-	if err != nil {
-		return nil, err
-	}
-
-	return &resp_resource, nil
+	_, err := resources.Client.doRequest("DELETE", "/resources/"+resourceId, nil)
+	return err
 }
