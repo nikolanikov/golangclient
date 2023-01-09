@@ -100,24 +100,14 @@ func (dns *DNSMethods) UpdateZone(zone DNSZone) (*DNSZone, error) {
 	return &resp_record, nil
 }
 
-func (dns *DNSMethods) DeleteZone(zone DNSZone) (*DNSZone, error) {
+func (dns *DNSMethods) DeleteZone(zone DNSZone) error {
 	return dns.Client.DNS.DeleteZoneByID(string(zone.ID))
 }
 
-func (dns *DNSMethods) DeleteZoneByID(zoneId string) (*DNSZone, error) {
+func (dns *DNSMethods) DeleteZoneByID(zoneId string) error {
 
-	body, err := dns.Client.doRequest("DELETE", "/dns/zones/"+zoneId, nil)
-	if err != nil {
-		return nil, err
-	}
-
-	var resp_record DNSZone
-	err = json.Unmarshal(body, &resp_record)
-	if err != nil {
-		return nil, err
-	}
-
-	return &resp_record, nil
+	_, err := dns.Client.doRequest("DELETE", "/dns/zones/"+zoneId, nil)
+	return err
 }
 
 //	client.DNS.GetZoneRecords("428964", &map[string]string{
