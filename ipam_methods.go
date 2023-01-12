@@ -161,24 +161,14 @@ func (ipam *IPAMMethods) UpdateNetblock(netblock Netblock) (*Netblock, error) {
 	return &netblocks_ret, nil
 }
 
-func (ipam *IPAMMethods) DeleteNetblock(netblock Netblock) (*Netblock, error) {
+func (ipam *IPAMMethods) DeleteNetblock(netblock Netblock) error {
 	return ipam.Client.IPAM.DeleteNetblockByID(string(netblock.ID))
 }
 
-func (ipam *IPAMMethods) DeleteNetblockByID(netblock_id string) (*Netblock, error) {
+func (ipam *IPAMMethods) DeleteNetblockByID(netblock_id string) error {
 
-	body, err := ipam.Client.doRequest("DELETE", "/ipam/netblocks/"+netblock_id, nil)
-	if err != nil {
-		return nil, err
-	}
-
-	netblocks_ret := Netblock{}
-	err = json.Unmarshal(body, &netblocks_ret)
-	if err != nil {
-		return nil, err
-	}
-
-	return &netblocks_ret, nil
+	_, err := ipam.Client.doRequest("DELETE", "/ipam/netblocks/"+netblock_id, nil)
+	return err
 }
 
 func (ipam *IPAMMethods) UnassignNetblock(netblock Netblock, skip_holding_tank bool) (*Netblock, error) {
