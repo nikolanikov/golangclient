@@ -3,7 +3,7 @@ GoLang client for 6connect ProVision
 
 In case that you require more functionality for 3rd party projects, please contact us.
 
-## Example Usage
+## Example Usage Golang
 
 ```golang
 client, err := provisionclient.NewClient("https://url.to.6connect.com", "example.user@example.com", "password", true)
